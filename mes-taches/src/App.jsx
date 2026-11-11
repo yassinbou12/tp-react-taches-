@@ -2,8 +2,10 @@ import Entete from "./components/Entete"
 import ListeTaches from "./components/ListeTaches"
 import Pied from "./components/Pied"
 import Carte from "./components/Carte"
+import Compteur from "./components/Compteur"
+import { useState } from "react"
 
-const TACHES = [
+const TACHES_INITIALES = [
   { id: 1, titre: 'Installer Node.js et Vite', terminee: true },
   { id: 2, titre: 'Comprendre les composants', terminee: true },
   { id: 3, titre: 'Passer des données avec les props', terminee: false },
@@ -11,13 +13,32 @@ const TACHES = [
 ]
 
 function App() {
+  const [taches, setTaches] = useState(TACHES_INITIALES)
+  function basculerTache(id) {
+    setTaches(
+      taches.map((tache) =>
+        tache.id === id ? { ...tache, terminee: !tache.terminee } : tache,
+      ),
+    )
+  }
+
+  function supprimerTache(id) {
+    setTaches(taches.filter((tache) =>
+      id !== tache.id
+    )
+    )
+  }
   return (
     <div className="app">
-      <Entete titre="Mes tâches" sousTitre="Mon premier projet React"/>
+      <Entete titre="Mes tâches" sousTitre="Mon premier projet React" />
       <Carte titre="Ma liste">
-        <ListeTaches taches={TACHES}/>
+        <ListeTaches taches={taches} onBasculer={basculerTache} onSupprimer={supprimerTache} />
       </Carte>
-      <Pied auteur="yassin bouougrou"/>
+      <Carte titre="Compteur">
+        <Compteur />
+      </Carte>
+      <Pied auteur="yassin bouougrou" />
+
     </div>
   )
 }
