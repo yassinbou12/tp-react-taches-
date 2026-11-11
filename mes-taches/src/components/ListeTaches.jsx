@@ -1,15 +1,15 @@
-function ListeTaches(){
+import Tache from "./Tache"
+function ListeTaches({taches}){
+    if (taches.length===0){
+        return <p className="vide">Aucune tâche à afficher.</p>
+    }
     return(
         <ul className="liste-taches">
-            <li className="tache">
-                <span className="titre">Comprendre les composants</span>
-            </li>
-            <li className="tache terminee">
-                <span className="titre">Installer Node.js et Vite</span>
-            </li>
-            <li className="tache">
-                <span className="titre">Découvrir les props et l'état</span>
-            </li>
+            {
+                taches.map(tache=>(
+                    <Tache key={tache.id} titre={tache.titre} terminee={tache.terminee} />
+                ))
+            }
         </ul>
     )
 }
